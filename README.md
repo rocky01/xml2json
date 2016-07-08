@@ -90,7 +90,7 @@ It follows these simple but carefully considered rules below:
 }]</code>
 </td>
 <td bgcolor="#f0f0f0">
-<code>o.e["@name"]
+<code>o.e["name"]
 o.e["_"]</code>
 </td>
 </tr>
