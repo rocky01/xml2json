@@ -144,7 +144,7 @@ o.e.a[1]</code>
 </td>
 <td bgcolor="#CCCCCC">
 <code>"e": [{
-  "_": "text",
+  "_": ["text"],
   "a": ["text"]
 }]</code>
 </td>
