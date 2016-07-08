@@ -74,7 +74,7 @@ It follows these simple but carefully considered rules below:
 <code>"e":[{"$":{"name": "value"}}]</code>
 </td>
 <td bgcolor="#f0f0f0">
-<code>o.e["@name"]</code>
+<code>o.e.$["name"]</code>
 </td>
 </tr>
 
@@ -91,7 +91,7 @@ It follows these simple but carefully considered rules below:
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e["@name"]
-o.e["#text"]</code>
+o.e["_"]</code>
 </td>
 </tr>
 
@@ -149,7 +149,7 @@ o.e.a[1]</code>
 }]</code>
 </td>
 <td bgcolor="#f0f0f0">
-<code>o.e["#text"]
+<code>o.e["_"]
 o.e.a</code>
 </td>
 </tr>
