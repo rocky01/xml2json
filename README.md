@@ -45,7 +45,7 @@ It follows these simple but carefully considered rules below:
 <code>&lt;e/&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e": null</code>
+<code>"e": [""]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e</code>
@@ -58,7 +58,7 @@ It follows these simple but carefully considered rules below:
 <code>&lt;e&gt;text&lt;/e&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e": "text"</code>
+<code>"e": ["text"]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e</code>
@@ -71,7 +71,7 @@ It follows these simple but carefully considered rules below:
 <code>&lt;e name="value" /&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e":{"@name": "value"}</code>
+<code>"e":[{"$":{"name": "value"}}]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e["@name"]</code>
@@ -84,10 +84,10 @@ It follows these simple but carefully considered rules below:
 <code>&lt;e name="value"&gt;text&lt;/e&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e": {
-  "@name": "value",
-  "#text": "text"
-}</code>
+<code>"e": [{
+  "$":{"name": "value"},
+  "_": "text"
+}]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e["@name"]
@@ -104,10 +104,10 @@ o.e["#text"]</code>
 &lt;/e&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e": { 
-  "a": "text",
-  "b": "text"
-}</code>
+<code>"e": [{ 
+  "a": ["text"],
+  "b": ["text"]
+}]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e.a
@@ -124,9 +124,9 @@ o.e.b</code>
 &lt;/e&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e": {
+<code>"e": [{
   "a": ["text", "text"]
-}</code>
+}]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e.a[0]
@@ -143,10 +143,10 @@ o.e.a[1]</code>
 &lt;/e&gt;</code>
 </td>
 <td bgcolor="#CCCCCC">
-<code>"e": {
-  "#text": "text",
-  "a": "text"
-}</code>
+<code>"e": [{
+  "_": "text",
+  "a": ["text"]
+}]</code>
 </td>
 <td bgcolor="#f0f0f0">
 <code>o.e["#text"]
