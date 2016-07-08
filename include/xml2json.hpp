@@ -51,13 +51,16 @@ void to_array_form(const char *name, rapidjson::Value &jsvalue, rapidjson::Value
 void add_attributes(rapidxml::xml_node<> *xmlnode, rapidjson::Value &jsvalue, rapidjson::Document::AllocatorType& allocator)
 {
     rapidxml::xml_attribute<> *myattr;
+    rapidjson::Value jsVirtualObj;
+    jsVirtualObj.SetObject();
     for(myattr = xmlnode->first_attribute(); myattr; myattr = myattr->next_attribute())
     {
         rapidjson::Value jn, jv;
-        jn.SetString((std::string("@") + myattr->name()).c_str(), allocator);
+        jn.SetString(myattr->name(), allocator);
         jv.SetString(myattr->value(), allocator);
-        jsvalue.AddMember(jn, jv, allocator);
+        jsVirtualObj.AddMember(jn, jv, allocator);
     }
+    jsvalue.AddMember(rapidjson::StringRef("$"), jsVirtualObj, allocator);
 }
 
 void traverse_node(rapidxml::xml_node<> *xmlnode, rapidjson::Value &jsvalue, rapidjson::Document::AllocatorType& allocator)
@@ -83,7 +86,7 @@ void traverse_node(rapidxml::xml_node<> *xmlnode, rapidjson::Value &jsvalue, rap
             {
                 // case: <e attr="xxx">text</e>
                 rapidjson::Value jn, jv;
-                jn.SetString("#text", allocator);
+                jn.SetString("_", allocator);
                 jv.SetString(xmlnode->first_node()->value(), allocator);
                 jsvalue.AddMember(jn, jv, allocator);
                 add_attributes(xmlnode, jsvalue, allocator);
@@ -100,7 +103,7 @@ void traverse_node(rapidxml::xml_node<> *xmlnode, rapidjson::Value &jsvalue, rap
             if(!xmlnode->first_node())
             {
                 // case: <e />
-                jsvalue.SetNull();
+                jsvalue.SetString("", allocator);
                 return;
             }
             else if(xmlnode->first_node()->type() == rapidxml::node_data && count_children(xmlnode) == 1)
@@ -121,9 +124,9 @@ void traverse_node(rapidxml::xml_node<> *xmlnode, rapidjson::Value &jsvalue, rap
                 rapidjson::Value jn, jv;
                 if(xmlnode_chd->type() == rapidxml::node_data || xmlnode_chd->type() == rapidxml::node_cdata)
                 {
-                    current_name = "#text";
+                    current_name = "_";
                     name_count[current_name]++;
-                    jv.SetString("#text", allocator);
+                    jv.SetString("_", allocator);
                     name_ptr = jv.GetString();
                 }
                 else if(xmlnode_chd->type() == rapidxml::node_element)
@@ -138,7 +141,10 @@ void traverse_node(rapidxml::xml_node<> *xmlnode, rapidjson::Value &jsvalue, rap
                 else
                 {
                     jn.SetString(name_ptr, allocator);
-                    jsvalue.AddMember(jn, jsvalue_chd, allocator);
+                    rapidjson::Value jsvalue_array;
+                    jsvalue_array.SetArray();
+                    jsvalue_array.PushBack(jsvalue_chd, allocator);
+                    jsvalue.AddMember(jn, jsvalue_array, allocator);
                 }
             }
         }
